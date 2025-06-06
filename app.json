@@ -1,7 +1,7 @@
 {
   "name": "Telegram PDF Bot",
-  "description": "A Telegram bot to convert images, text, and docx to PDF, extract PDF pages, and lock/unlock files. Multilingual. Deployable to Heroku.",
-  "repository": "https://github.com/yourusername/pdf-bot",
+  "description": "A Telegram bot to convert images, text, and docx to PDF, extract PDF pages, and lock/unlock files. Multilingual and deployable to Heroku.",
+  "repository": "https://github.com/bloodlinebots/image-to-pdf-2.0",
   "logo": "https://telegram.org/img/t_logo.png",
   "keywords": ["telegram", "bot", "pdf", "converter", "heroku"],
   "env": {
@@ -18,7 +18,6 @@
       "url": "https://github.com/heroku/heroku-buildpack-apt"
     }
   ],
-  "addons": [],
   "formation": {
     "worker": {
       "quantity": 1,
