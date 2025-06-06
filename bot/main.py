@@ -10,6 +10,7 @@ from telegram.ext import (
 import os
 BOT_TOKEN = os.environ["BOT_TOKEN"]
 
+# Handlers import
 from bot.handlers import (
     start,
     language,
@@ -38,37 +39,44 @@ async def error_handler(update, context):
 def main():
     app = ApplicationBuilder().token(BOT_TOKEN).build()
 
-    # Register command handlers
+    # /start, /help, /done commands
     app.add_handler(CommandHandler("start", start.start))
     app.add_handler(CommandHandler("help", start.help_command))
     app.add_handler(CommandHandler("done", done.done))
 
-    # Language
+    # Language selector
     app.add_handler(CallbackQueryHandler(language.set_language, pattern="^lang_"))
 
-    # Features (image → pdf, text → pdf, etc.)
+    # Image → PDF
     app.add_handler(CallbackQueryHandler(image_to_pdf.start_image_to_pdf, pattern="^image2pdf$"))
     app.add_handler(MessageHandler(filters.PHOTO, image_to_pdf.handle_image))
 
+    # Text → PDF
     app.add_handler(CallbackQueryHandler(text_to_pdf.start_text_to_pdf, pattern="^text2pdf$"))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, text_to_pdf.handle_text))
 
+    # DOCX → PDF
     app.add_handler(CallbackQueryHandler(docx_to_pdf.start_docx_to_pdf, pattern="^docx2pdf$"))
-    app.add_handler(MessageHandler(filters.Document.MimeType("application/vnd.openxmlformats-officedocument.wordprocessingml.document"),
-                                   docx_to_pdf.handle_docx))
+    app.add_handler(MessageHandler(
+        filters.Document.MimeType("application/vnd.openxmlformats-officedocument.wordprocessingml.document"),
+        docx_to_pdf.handle_docx
+    ))
 
+    # PDF → Images
     app.add_handler(CallbackQueryHandler(pdf_to_images.start_pdf_to_images, pattern="^pdf2images$"))
     app.add_handler(MessageHandler(filters.Document.PDF, pdf_to_images.handle_pdf_for_images))
 
+    # Lock PDF
     app.add_handler(CallbackQueryHandler(lock_pdf.start_lock_pdf, pattern="^lockpdf$"))
     app.add_handler(MessageHandler(filters.Document.PDF, lock_pdf.handle_pdf_to_lock))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, lock_pdf.handle_password))
 
+    # Unlock PDF — ✅ FIXED BELOW
     app.add_handler(CallbackQueryHandler(unlock_pdf.start_unlock_pdf, pattern="^unlockpdf$"))
-    app.add_handler(MessageHandler(filters.Document.PDF, unlock_pdf.start_unlock_pdf))  # 🔥 FIXED HERE
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, unlock_pdf.receive_unlock_password))
+    app.add_handler(MessageHandler(filters.Document.PDF, unlock_pdf.start_unlock_pdf))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, unlock_pdf.handle_password))  # 🔥 FIXED
 
-    # Error handler
+    # Error handling
     app.add_error_handler(error_handler)
 
     print("🤖 Bot is running...")
