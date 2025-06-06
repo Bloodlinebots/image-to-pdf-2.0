@@ -8,7 +8,7 @@ LANGUAGES = ["en", "hi", "ru", "ar"]
 language_data = {}
 
 for lang in LANGUAGES:
-    file_path = os.path.join(os.path.dirname(__file__), f"../locales/{lang}.json")
+    file_path = os.path.join(os.path.dirname(__file__), f"../../locales/{lang}.json")
     with open(file_path, "r", encoding="utf-8") as f:
         language_data[lang] = json.load(f)
 
