@@ -7,7 +7,8 @@ from telegram.ext import (
     filters,
 )
 
-from config import BOT_TOKEN
+import os
+BOT_TOKEN = os.environ["BOT_TOKEN"]
 from bot.handlers import (
     start,
     language,
