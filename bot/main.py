@@ -9,6 +9,7 @@ from telegram.ext import (
 
 import os
 BOT_TOKEN = os.environ["BOT_TOKEN"]
+
 from bot.handlers import (
     start,
     language,
@@ -57,14 +58,14 @@ def main():
                                    docx_to_pdf.handle_docx))
 
     app.add_handler(CallbackQueryHandler(pdf_to_images.start_pdf_to_images, pattern="^pdf2images$"))
-    # ✅ FIXED LINE:
     app.add_handler(MessageHandler(filters.Document.PDF, pdf_to_images.handle_pdf_for_images))
 
     app.add_handler(CallbackQueryHandler(lock_pdf.start_lock_pdf, pattern="^lockpdf$"))
     app.add_handler(MessageHandler(filters.Document.PDF, lock_pdf.handle_pdf_to_lock))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, lock_pdf.handle_password))
+
     app.add_handler(CallbackQueryHandler(unlock_pdf.start_unlock_pdf, pattern="^unlockpdf$"))
-    app.add_handler(MessageHandler(filters.Document.PDF, unlock_pdf.handle_unlock_pdf))
+    app.add_handler(MessageHandler(filters.Document.PDF, unlock_pdf.start_unlock_pdf))  # 🔥 FIXED HERE
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, unlock_pdf.receive_unlock_password))
 
     # Error handler
