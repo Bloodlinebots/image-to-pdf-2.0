@@ -1,0 +1,7 @@
+python-telegram-bot==20.8
+reportlab
+python-docx
+pdf2image
+PyPDF2
+Pillow
+python-dotenv
