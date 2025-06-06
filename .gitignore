@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+/tmp/
+.vscode/
+.idea/
+*.docx
+*.pdf
+*.jpg
+*.jpeg
+*.png
+*.webp
+.DS_Store
