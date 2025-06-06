@@ -16,3 +16,7 @@ def get_language_keyboard() -> InlineKeyboardMarkup:
     ]
     keyboard.add(*buttons)
     return keyboard
+
+# ✅ Add this function for the import to work
+def get_text(lang_code: str) -> str:
+    return LANGUAGE_NAMES.get(lang_code, "Unknown 🌐")
