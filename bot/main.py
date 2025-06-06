@@ -57,7 +57,8 @@ def main():
                                    docx_to_pdf.handle_docx))
 
     app.add_handler(CallbackQueryHandler(pdf_to_images.start_pdf_to_images, pattern="^pdf2images$"))
-    app.add_handler(MessageHandler(filters.Document.PDF, pdf_to_images.handle_pdf_to_images))
+    # ✅ FIXED LINE:
+    app.add_handler(MessageHandler(filters.Document.PDF, pdf_to_images.handle_pdf_for_images))
 
     app.add_handler(CallbackQueryHandler(lock_pdf.start_lock_pdf, pattern="^lockpdf$"))
     app.add_handler(MessageHandler(filters.Document.PDF, lock_pdf.handle_lock_pdf))
